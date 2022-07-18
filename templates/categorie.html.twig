@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <form action="{{ path('categorie') }}" method="post">
+        <div class="form-group">
+            <label>Id de la catégorie à récupérer: </label>
+            <input type="number" required class="form-control"  placeholder="Enter id" name="idCategorie">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+    <h2>Résultat</h2>
+
+    {% if categorie is defined %}
+
+        <p>Id de la catégorie: {{ categorie.id }}</p>
+        <p>Libellé de la catégorie: {{ categorie.libelle }}</p>
+        <p>Texte de la catégorie: {{ categorie.texte }}</p>
+
+    {% endif %}
+
+{% endblock %}

@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="card-group">
+
+        <div class="card">
+            <div class="card-header">
+                Récupérer une commande par un intervalle de temps:
+            </div>
+            <div class="card-body">
+                <form action="{{ path('SoapPhpGetCommande') }}" method="post">
+                    <div class="row g-3 align-items-center">
+                        <div class="col-auto">
+                            <label class="col-form-label">Début</label>
+                        </div>
+                        <div class="col-auto">
+                            <input type="date"
+                                   class="form-control"
+                                   name="debut"
+                                   required
+                            >
+                        </div>
+
+                    </div>
+                    <div class="row g-3 align-items-center">
+                        <div class="col-auto">
+                            <label class="col-form-label">Fin</label>
+                        </div>
+                        <div class="col-auto">
+                            <input type="date"
+                                   class="form-control"
+                                   name="fin"
+                                   required
+                            >
+                        </div>
+
+                    </div>
+                    <div class="col-12" style="margin-top: 2rem">
+                        <button class="btn btn-primary" type="submit">Récupérer commandes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        {% if commande is defined %}
+            <div class="card">
+                <div class="card-header">
+                    Attributs de la commande
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">{{ commande.id }}</li>
+                        <li class="list-group-item">{{ commande.date_commande }}</li>
+                        <li class="list-group-item">{{ commande.statut }}</li>
+                    </ul>
+                </div>
+            </div>
+        {% endif %}
+
+    </div>
+
+{% endblock %}

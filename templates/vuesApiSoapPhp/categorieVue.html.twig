@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="card-group">
+        {% if app.session.get('categorieIds') is defined %}
+            {% set categorieIds = app.session.get('categorieIds') %}
+            <div class="card">
+                <div class="card-header">
+                    Ids des Catégories disponibles:
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        {% for categorieId in categorieIds %}
+                            <li class="list-group-item">{{ categorieId }}</li>
+                        {% endfor %}
+                    </ul>
+
+                </div>
+            </div>
+        {% endif %}
+        <div class="card">
+            <div class="card-header">
+                Récupérer une Catégorie:
+            </div>
+            <div class="card-body">
+                <form action="{{ path('SoapPhpGetCategorie') }}" method="post">
+                    <div class="row g-3 align-items-center">
+                        <div class="col-auto">
+                            <label class="col-form-label">Id</label>
+                        </div>
+                        <div class="col-auto">
+                            <input type="number"
+                                   class="form-control"
+                                   aria-describedby="categorieHelpInline"
+                                   name="categorieId"
+                                   required
+                            >
+                        </div>
+                        <div class="col-auto">
+                        <span id="categorieHelpInline" class="form-text">
+                          Id doit appartenir à une catégorie existante en BD côté serveur.
+                        </span>
+                        </div>
+                    </div>
+                    <div class="col-12" style="margin-top: 2rem">
+                        <button class="btn btn-primary" type="submit">Récupérer catégorie</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        {% if categorie is defined %}
+            <div class="card">
+                <div class="card-header">
+                    Attributs de la Catégorie
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">{{ categorie.id }}</li>
+                        <li class="list-group-item">{{ categorie.libelle }}</li>
+                        <li class="list-group-item">{{ categorie.texte }}</li>
+                    </ul>
+                </div>
+            </div>
+        {% endif %}
+
+    </div>
+
+{% endblock %}
