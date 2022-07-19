@@ -2,8 +2,7 @@
 
 namespace App\Controller\ClientSoapPhpController;
 
-use App\Services\CommandeService;
-use App\Soap\IntervalleSoap;
+use App\Services\SoapPhp\CommandeService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 

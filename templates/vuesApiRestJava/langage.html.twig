@@ -1,0 +1,154 @@
+{% extends 'base.html.twig' %}
+
+{#todo: aligner les boutons sur la verticale#}
+{% block body %}
+    <div class="card-group" style="display: flex; flex-direction: row; justify-content: space-between">
+
+        {#        get langage #}
+        <div class="card">
+            <div class="card-header">
+                <h5>Récupérer un langage:</h5>
+            </div>
+            <div class="card-body">
+                <form action="{{ path('rjLangage') }}" method="get">
+                    <div class="mb-3">
+                        <label class="col-form-label">id</label>
+                        <input type="text"
+                               class="form-control"
+                               name="id"
+                               required
+                        >
+                    </div>
+                    <button class="btn btn-primary" type="submit">Récupérer langage</button>
+                </form>
+
+                {% if langageById is defined %}
+                    <hr>
+
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">id: {{ langageById.id }}</li>
+                        <li class="list-group-item">nom: {{ langageById.nom }}</li>
+                        <li class="list-group-item">caractéristiques: {{ langageById.caracteristiques }}</li>
+                    </ul>
+
+                    {% if  langageById.ides|length > 0 %}
+                        <div class="card-columns"></div>
+
+                        {% for ide in langageById.ides %}
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5>Ide associé</h5>
+                                </div>
+
+                                <div class="card-body">
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item">id: {{ ide.id }}</li>
+                                        <li class="list-group-item">nom: {{ ide.nom }}</li>
+                                        <li class="list-group-item">caractéristiques: {{ ide.caracteristiques }}</li>
+                                    </ul>
+                                </div>
+
+                            </div>
+
+                        {% endfor %}
+                    {% endif %}
+
+                {% endif %}
+
+
+            </div>
+        </div>
+        {#        get langages #}
+        <div class="card">
+            <div class="card-header">
+                <h5>Récupérer les langages:</h5>
+            </div>
+            <div class="card-body">
+                <form action="{{ path('rjLangages') }}" method="get">
+                    <button class="btn btn-primary" type="submit">Récupérer tous les langage</button>
+                </form>
+
+                {% if langages is defined %}
+
+                    {% for langage in langages %}
+                        <hr>
+
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">id: {{ langage.id }}</li>
+                            <li class="list-group-item">nom: {{ langage.nom }}</li>
+                            <li class="list-group-item">caractéristiques: {{ langage.caracteristiques }}</li>
+                        </ul>
+
+                    {% endfor %}
+
+                {% endif %}
+
+
+            </div>
+        </div>
+        {#        delete langage #}
+        <div class="card">
+            <div class="card-header">
+                <h5>Supprimer un langage</h5>
+            </div>
+            <div class="card-body">
+                <form action="{{ path('rjLangageDelete') }}" method="get">
+                    {% if langagesSelect is defined %}
+                        <div class="mb-3">
+                            <select class="custom-select" name="id">
+                                <option selected>Choisir un langage</option>
+                                {% for langage in langagesSelect %}
+                                    <option value={{ langage.id }}>{{ langage.nom }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <button class="btn btn-primary" type="submit">Supprimer</button>
+                    {% endif %}
+                </form>
+            </div>
+        </div>
+        {#        create langage #}
+        <div class="card">
+            <div class="card-header">
+                <h5>Créer langage:</h5>
+            </div>
+            <div class="card-body">
+                <form action="{{ path('RestJavaCreateCategorie') }}" method="post">
+                    <div class="mb-3">
+                        <label class="col-form-label">nom</label>
+                        <input type="text"
+                               class="form-control"
+                               name="nom"
+                               required
+                        >
+                    </div>
+                    <div class="mb-3">
+                        <label class="col-form-label">caractéristiques</label>
+                        <input type="text"
+                               class="form-control"
+                               name="caracteristiques"
+                               required
+                        >
+                    </div>
+                    <button class="btn btn-primary" type="submit">Créer langage</button>
+                </form>
+
+                {% if langage is defined %}
+                    <hr>
+
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">id: {{ langage.id }}</li>
+                        <li class="list-group-item">nom: {{ langage.nom }}</li>
+                        <li class="list-group-item">caractéristiques: {{ langage.caracteristiques }}</li>
+                    </ul>
+
+                {% endif %}
+
+
+            </div>
+        </div>
+
+
+    </div>
+
+{% endblock %}

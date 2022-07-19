@@ -2,8 +2,7 @@
 
 namespace App\Controller\ClientSoapPhpController;
 
-use App\Services\CategorieService;
-use App\Soap\CategorieSoap;
+use App\Services\SoapPhp\CategorieService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
