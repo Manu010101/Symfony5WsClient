@@ -31,20 +31,20 @@ class CommandeController extends \Symfony\Bundle\FrameworkBundle\Controller\Abst
      */
     public function getCommandes(Request $request, CommandeService $commandeService): \Symfony\Component\HttpFoundation\Response
     {
-//        try {
+        try {
             return $this->render(
                 "vuesApiSoapPhp/commandeVue.html.twig",
-                array("commande" => $commandeService->fetchCommandes(
+                array("commandes" => $commandeService->fetchCommandes(
                     $request->get('debut'),
                     $request->get("fin")
                 ))
             );
-//        }catch (\Exception $exception){
-//            return $this->render(
-//                "vuesApiSoapPhp/commandeVue.html.twig",
-//                array("exception" => $exception)
-//            );
-//        }
+        }catch (\Exception $exception){
+            return $this->render(
+                "vuesApiSoapPhp/commandeVue.html.twig",
+                array("exception" => $exception)
+            );
+        }
 
     }
 

@@ -4,6 +4,7 @@ namespace App\Services\SoapPhp;
 
 
 
+use App\Soap\CategorieSoap;
 use App\Soap\IntervalleSoap;
 
 class CommandeService

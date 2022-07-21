@@ -13,9 +13,17 @@ class CategorieService
         'connection_timeout' => 180,
         'encoding' => 'UTF-8',
         'soap_version' => SOAP_1_1,
-        'cache_wsdl' => WSDL_CACHE_NONE);
+        'cache_wsdl' => WSDL_CACHE_NONE
+    );
 
     private $urlWsdlSoapPhp = 'http://localhost:8000/soap?wsdl';
+    private $soapClient;
+
+    public function __construct()
+    {
+        $this->soapClient = new \SoapClient($this->urlWsdlSoapPhp, $this->options);
+    }
+
 
     /**
      * méthode pour récupérer les ids des catégories disponibles sur le serveur
@@ -24,15 +32,18 @@ class CategorieService
      */
     public function fetchCategorieIds()
     {
-        $soapClient = new \SoapClient($this->urlWsdlSoapPhp, $this->options);
-        return $soapClient->getCategorieIds();
+        return $this->soapClient->getCategorieIds();
     }
 
+    /**
+     * Retourne une catégorie via son id
+     * @param $idCategorie
+     * @return mixed
+     */
     public function fetchCategorie($idCategorie)
     {
-        $soapClient = new \SoapClient($this->urlWsdlSoapPhp, $this->options);
         $categorie = new CategorieSoap($idCategorie, '', '');
-        return $soapClient->getCategorieLibelle($categorie);
+        return $this->soapClient->getCategorieLibelle($categorie);
     }
 
 }

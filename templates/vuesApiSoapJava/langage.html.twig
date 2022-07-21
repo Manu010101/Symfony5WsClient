@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% if app.session.get('langageIds') is defined %}
+        {% set langageIds = app.session.get('langageIds') %}
+        <div class="card">
+            <div class="card-header">
+                Récupérer un langage:
+            </div>
+            <div class="card-body">
+                <form action="{{ path('sjLangage') }}" method="post">
+                    <div class="row g-3 align-items-center">
+                        <div class="col-auto">
+                            <label class="col-form-label">Id</label>
+                        </div>
+                        <div class="col-auto">
+                            <select class="form-select" name="langageId" type="number" required>
+                                {% for langageId in langageIds %}
+                                    <option value={{ langageId }}>{{ langageId }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-auto">
+                        <span id="categorieHelpInline" class="form-text">
+                          Id doit appartenir à un langage existant.
+                        </span>
+                        </div>
+                    </div>
+                    <div class="col-12" style="margin-top: 2rem">
+                        <button class="btn btn-primary" type="submit">Récupérer langage</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    {% endif %}
+
+    {% if langage is defined %}
+        {{ include('slots/_langage.html.twig', { langage:langage}) }}
+    {% endif %}
+{% endblock %}

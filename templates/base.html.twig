@@ -17,33 +17,7 @@
 </head>
 <body>
 <header class="navbar navbar-dark bg-primary navbar-expand-lg  bd-navbar sticky-top">
-    <nav class="container-xxl bd-gutter flex-wrap flex-lg-nowrap">
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('accueil') }}">Accueil</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle"  id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        API SOAP Php
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#">Méthodes disponibles</a></li>
-                        <li><a class="dropdown-item" href="{{ path('SoapPHpShow') }}">Catégorie</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="{{ path('commandeShow') }}">Commande</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('RestJavaShow') }}">API REST Java</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('appelSoapJava') }}">API SOAP Java</a>
-                </li>
-            </ul>
-
-        </div>
-    </nav>
+    {% include "navabar.html.twig" %}
 </header>
 
 
