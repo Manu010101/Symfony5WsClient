@@ -41,7 +41,7 @@ class LangageController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstr
         try {
             return $this->render(
                 "vuesApiRestJava/langage.html.twig",
-                ["langageById" => $langageService->getLangage($request->get("id"))]
+                ["langage" => $langageService->getLangage($request->get("id"))]
             );
         } catch (\Exception $exception) {
             return $this->render("vuesApiRestJava/langage.html.twig", array('exception' => $exception));
@@ -56,9 +56,13 @@ class LangageController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstr
      */
     public function getLangageWithIde(Request $request, LangageService $langageService){
         try {
+            $resultat = $langageService->getLangageWithIde($request->get("id"));
             return $this->render(
                 "vuesApiRestJava/langage.html.twig",
-                ["langageWithIde" => $langageService->getLangageWithIde($request->get("id"))]
+                [
+                    "langage" => $resultat["langage"],
+                    "ides" => $resultat["ides"]
+                ]
             );
         } catch (\Exception $exception) {
             return $this->render("vuesApiRestJava/langage.html.twig", array('exception' => $exception));

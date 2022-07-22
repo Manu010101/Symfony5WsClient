@@ -13,7 +13,7 @@ class LangageService
         $client = HttpClient::create();
         $reponse = $client->request(
             'GET',
-            $this->baseUrl . " / " . $id
+            $this->baseUrl . "/" .$id
         );
         return $reponse->toArray();
     }
@@ -25,7 +25,11 @@ class LangageService
             'GET',
             $this->baseUrl . "/" . $id . "/ides"
         );
-        return $reponse->toArray();
+        $reponseBrute = $reponse->toArray();
+        $reponseTraitees = [];
+        $reponseTraitees["langage"] = $reponse->toArray()[0];
+        $reponseTraitees["ides"] = $reponse->toArray()[1];
+        return $reponseTraitees;
     }
 
     public function getLangages()

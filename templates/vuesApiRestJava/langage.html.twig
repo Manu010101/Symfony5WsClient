@@ -43,19 +43,19 @@
 
                 </form>
 
-                {% if langageById is defined %}
+                {% if langage is defined %}
                     <hr>
 
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item">id: {{ langageById.id }}</li>
-                        <li class="list-group-item">nom: {{ langageById.nom }}</li>
-                        <li class="list-group-item">caractéristiques: {{ langageById.caracteristiques }}</li>
+                        <li class="list-group-item">id: {{ langage.id }}</li>
+                        <li class="list-group-item">nom: {{ langage.nom }}</li>
+                        <li class="list-group-item">caractéristiques: {{ langage.caracteristiques }}</li>
                     </ul>
 
-                    {% if  langageById.ides|length > 0 %}
+                    {% if  ides is defined %}
                         <div class="card-columns"></div>
 
-                        {% for ide in langageById.ides %}
+                        {% for ide in ides %}
                             <div class="card">
                                 <div class="card-header">
                                     <h5>Ide associé</h5>
