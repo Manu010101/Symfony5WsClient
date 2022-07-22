@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{#todo: aligner les boutons sur la verticale#}
+{# todo: aligner les boutons sur la verticale #}
 {% block body %}
     <div class="card-group" style="display: flex; flex-direction: row; justify-content: space-between">
 
@@ -19,7 +19,28 @@
                                required
                         >
                     </div>
-                    <button class="btn btn-primary" type="submit">Récupérer langage</button>
+                    <div class="mb-3">
+                        <button
+                                class="btn btn-primary"
+                                type="submit"
+                                formaction="{{ path('rjLangage') }}"
+                                formmethod="get"
+                        >
+                            Récupérer langage
+                        </button>
+                    </div>
+
+                    <div class="mb-3">
+                        <button
+                                class="btn btn-primary"
+                                type="submit"
+                                formaction="{{ path('rjLangageIde') }}"
+                                formmethod="get"
+                        >
+                            Récupérer langage avec Ide
+                        </button>
+                    </div>
+
                 </form>
 
                 {% if langageById is defined %}
