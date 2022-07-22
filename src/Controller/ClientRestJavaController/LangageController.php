@@ -49,6 +49,23 @@ class LangageController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstr
     }
 
     /**
+     * @Route("restJava/langage/ide", name="rjLangageIde")
+     * @param Request $request
+     * @param LangageService $langageService
+     * @return Response
+     */
+    public function getLangageWithIde(Request $request, LangageService $langageService){
+        try {
+            return $this->render(
+                "vuesApiRestJava/langage.html.twig",
+                ["langageWithIde" => $langageService->getLangageWithIde($request->get("id"))]
+            );
+        } catch (\Exception $exception) {
+            return $this->render("vuesApiRestJava/langage.html.twig", array('exception' => $exception));
+        }
+    }
+
+    /**
      * @Route("restJava/langages", name="rjLangages")
      * @return Response
      */

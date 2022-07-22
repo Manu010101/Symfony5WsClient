@@ -6,14 +6,24 @@ use Symfony\Component\HttpClient\HttpClient;
 
 class LangageService
 {
-    public $baseUrl = "http://localhost:8081/JavaWS_war_exploded/api/langage/";
+    public $baseUrl = "http://localhost:8081/JavaWS_war_exploded/api/langages";
 
     public function getLangage($id)
     {
         $client = HttpClient::create();
         $reponse = $client->request(
             'GET',
-            $this->baseUrl . $id
+            $this->baseUrl . " / " . $id
+        );
+        return $reponse->toArray();
+    }
+
+    public function getLangageWithIde($id)
+    {
+        $client = HttpClient::create();
+        $reponse = $client->request(
+            'GET',
+            $this->baseUrl . "/" . $id . "/ides"
         );
         return $reponse->toArray();
     }
@@ -23,7 +33,7 @@ class LangageService
         $client = HttpClient::create();
         $reponse = $client->request(
             'GET',
-            $this->baseUrl . "all"
+            $this->baseUrl
         );
         return $reponse->toArray();
     }
@@ -31,16 +41,16 @@ class LangageService
     public function deleteLangage($id)
     {
         $client = HttpClient::create();
-        $reponse = $client->request(
-            'GET',
-            $this->baseUrl . "delete/" . $id
+        $client->request(
+            'DELETE',
+            $this->baseUrl . "/" . $id
         );
     }
 
     public function createLangage($nom, $caracteristiques)
     {
         $client = HttpClient::create();
-        $reponse = $client->request('POST', $this->baseUrl . "create", [
+        $reponse = $client->request('POST', $this->baseUrl, [
             'headers' => [
                 'Content-Type' => ['application/x-www-form-urlencoded'],
                 'Accept' => 'application/json'
