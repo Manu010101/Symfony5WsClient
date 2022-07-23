@@ -4,81 +4,6 @@
 {% block body %}
     <div class="card-group" style="display: flex; flex-direction: row; justify-content: space-between">
 
-        {#        get langage #}
-        <div class="card">
-            <div class="card-header">
-                <h5>Récupérer un langage:</h5>
-            </div>
-            <div class="card-body">
-                <form action="{{ path('rjLangage') }}" method="get">
-                    <div class="mb-3">
-                        <label class="col-form-label">id</label>
-                        <input type="text"
-                               class="form-control"
-                               name="id"
-                               required
-                        >
-                    </div>
-                    <div class="mb-3">
-                        <button
-                                class="btn btn-primary"
-                                type="submit"
-                                formaction="{{ path('rjLangage') }}"
-                                formmethod="get"
-                        >
-                            Récupérer langage
-                        </button>
-                    </div>
-
-                    <div class="mb-3">
-                        <button
-                                class="btn btn-primary"
-                                type="submit"
-                                formaction="{{ path('rjLangageIde') }}"
-                                formmethod="get"
-                        >
-                            Récupérer langage avec Ide
-                        </button>
-                    </div>
-
-                </form>
-
-                {% if langage is defined %}
-                    <hr>
-
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">id: {{ langage.id }}</li>
-                        <li class="list-group-item">nom: {{ langage.nom }}</li>
-                        <li class="list-group-item">caractéristiques: {{ langage.caracteristiques }}</li>
-                    </ul>
-
-                    {% if  ides is defined %}
-                        <div class="card-columns"></div>
-
-                        {% for ide in ides %}
-                            <div class="card">
-                                <div class="card-header">
-                                    <h5>Ide associé</h5>
-                                </div>
-
-                                <div class="card-body">
-                                    <ul class="list-group list-group-flush">
-                                        <li class="list-group-item">id: {{ ide.id }}</li>
-                                        <li class="list-group-item">nom: {{ ide.nom }}</li>
-                                        <li class="list-group-item">caractéristiques: {{ ide.caracteristiques }}</li>
-                                    </ul>
-                                </div>
-
-                            </div>
-
-                        {% endfor %}
-                    {% endif %}
-
-                {% endif %}
-
-
-            </div>
-        </div>
         {#        get langages #}
         <div class="card">
             <div class="card-header">
@@ -107,27 +32,98 @@
 
             </div>
         </div>
-        {#        delete langage #}
-        <div class="card">
-            <div class="card-header">
-                <h5>Supprimer un langage</h5>
-            </div>
-            <div class="card-body">
-                <form action="{{ path('rjLangageDelete') }}" method="get">
-                    {% if langagesSelect is defined %}
+
+        {#        get langage, langage with ide, delete #}
+        {% if app.session.get("langageIds") is defined %}
+            {% set langageIds = app.session.get("langageIds") %}
+            <div class="card">
+                <div class="card-header">
+                    <h5>Langage:</h5>
+                </div>
+                <div class="card-body">
+                    <form action="{{ path('rjLangage') }}">
                         <div class="mb-3">
-                            <select class="custom-select" name="id">
-                                <option selected>Choisir un langage</option>
-                                {% for langage in langagesSelect %}
-                                    <option value={{ langage.id }}>{{ langage.nom }}</option>
+                            <label class="col-form-label">id</label>
+                            <select class="custom-select" name="id" required>
+                                {% for id in langageIds %}
+                                    <option value={{ id }}>{{ id }}</option>
                                 {% endfor %}
                             </select>
                         </div>
-                        <button class="btn btn-primary" type="submit">Supprimer</button>
+                        <div class="mb-3">
+                            <button
+                                    class="btn btn-primary"
+                                    type="submit"
+                                    formaction="{{ path('rjLangage') }}"
+                                    formmethod="get"
+                            >
+                                Récupérer langage
+                            </button>
+                        </div>
+
+                        <div class="mb-3">
+                            <button
+                                    class="btn btn-primary"
+                                    type="submit"
+                                    formaction="{{ path('rjLangageIde') }}"
+                                    formmethod="get"
+                            >
+                                Récupérer langage avec Ide
+                            </button>
+                        </div>
+
+                        <div class="mb-3">
+                            <button
+                                    class="btn btn-primary"
+                                    type="submit"
+                                    formaction="{{ path('rjLangageDelete') }}"
+                                    formmethod="get"
+                            >
+                                Supprimer langage
+                            </button>
+                        </div>
+
+                    </form>
+
+                    {% if langage is defined %}
+                        <hr>
+
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">id: {{ langage.id }}</li>
+                            <li class="list-group-item">nom: {{ langage.nom }}</li>
+                            <li class="list-group-item">caractéristiques: {{ langage.caracteristiques }}</li>
+                        </ul>
+
+                        {% if  ides is defined %}
+                            <div class="card-columns"></div>
+
+                            {% for ide in ides %}
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5>Ide associé</h5>
+                                    </div>
+
+                                    <div class="card-body">
+                                        <ul class="list-group list-group-flush">
+                                            <li class="list-group-item">id: {{ ide.id }}</li>
+                                            <li class="list-group-item">nom: {{ ide.nom }}</li>
+                                            <li class="list-group-item">
+                                                caractéristiques: {{ ide.caracteristiques }}</li>
+                                        </ul>
+                                    </div>
+
+                                </div>
+
+                            {% endfor %}
+                        {% endif %}
+
                     {% endif %}
-                </form>
+
+
+                </div>
             </div>
-        </div>
+        {% endif %}
+
         {#        create langage #}
         <div class="card">
             <div class="card-header">
@@ -154,13 +150,13 @@
                     <button class="btn btn-primary" type="submit">Créer langage</button>
                 </form>
 
-                {% if langage is defined %}
+                {% if langageCreated is defined %}
                     <hr>
 
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item">id: {{ langage.id }}</li>
-                        <li class="list-group-item">nom: {{ langage.nom }}</li>
-                        <li class="list-group-item">caractéristiques: {{ langage.caracteristiques }}</li>
+                        <li class="list-group-item">id: {{ langageCreated.id }}</li>
+                        <li class="list-group-item">nom: {{ langageCreated.nom }}</li>
+                        <li class="list-group-item">caractéristiques: {{ langageCreated.caracteristiques }}</li>
                     </ul>
 
                 {% endif %}

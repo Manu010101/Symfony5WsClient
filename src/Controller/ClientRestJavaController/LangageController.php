@@ -5,23 +5,24 @@ namespace App\Controller\ClientRestJavaController;
 use App\Services\RestJava\LangageService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class LangageController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
-//    todo: mettre langages en session, le modifier quand delete et create
-//    todo: pour le get langage, proposer un select
 
     /**
      * @Route("/RestJava", name="RestJavaShow")
      * @return Response
      */
-    public function showAccueil(LangageService $langageService)
+    public function showAccueil(SessionInterface $session, LangageService $langageService)
     {
         try {
+            if (!$session->has('langageIds')) {
+                $session->set('langageIds', $langageService->getLangageIds());
+            }
             return $this->render(
-                "vuesApiRestJava/langage.html.twig",
-                ["langagesSelect" => $langageService->getLangages()]
+                "vuesApiRestJava/langage.html.twig"
             );
         } catch (\Exception $exception) {
             return $this->render(
@@ -54,7 +55,8 @@ class LangageController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstr
      * @param LangageService $langageService
      * @return Response
      */
-    public function getLangageWithIde(Request $request, LangageService $langageService){
+    public function getLangageWithIde(Request $request, LangageService $langageService)
+    {
         try {
             $resultat = $langageService->getLangageWithIde($request->get("id"));
             return $this->render(
@@ -90,10 +92,11 @@ class LangageController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstr
      * @param LangageService $langageService
      * @return Response
      */
-    public function deleteLangage(Request $request, LangageService $langageService)
+    public function deleteLangage(Request $request, LangageService $langageService, SessionInterface $session)
     {
         try {
             $langageService->deleteLangage($request->get("id"));
+            $session->set("langageIds", $langageService->getLangageIds());
             return $this->redirectToRoute("RestJavaShow");
         } catch (\Exception $exception) {
             return $this->render("vuesApiRestJava/langage.html.twig", array('exception' => $exception));
@@ -105,16 +108,18 @@ class LangageController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstr
      * @param Request $request
      * @return Response
      */
-    public function createCategorie(Request $request, LangageService $langageService)
+    public function createCategorie(Request $request, LangageService $langageService, SessionInterface $session)
     {
 
         try {
+            $langage = $langageService->createLangage(
+                $request->get("nom"),
+                $request->get("caracteristiques")
+            );
+            $session->set("langageIds", $langageService->getLangageIds());
             return $this->render(
                 "vuesApiRestJava/langage.html.twig",
-                ["langage" => $langageService->createLangage(
-                    $request->get("nom"),
-                    $request->get("caracteristiques")
-                )]
+                ["langageCreated" => $langage]
             );
         } catch (\Exception $exception) {
             return $this->render("vuesApiRestJava/langage.html.twig", array('exception' => $exception));

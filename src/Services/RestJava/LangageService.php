@@ -42,6 +42,15 @@ class LangageService
         return $reponse->toArray();
     }
 
+    public function getLangageIds(){
+        $client = HttpClient::create();
+        $reponse = $client->request(
+            'GET',
+            $this->baseUrl ."/ids"
+        );
+        return $reponse->toArray();
+    }
+
     public function deleteLangage($id)
     {
         $client = HttpClient::create();
