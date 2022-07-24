@@ -33,7 +33,6 @@ class LangageService
         return $this->soapClient->__soapCall("getLangageIds", array())->return;
     }
 
-//    TODO: utiliser __soapcall!!!! l'autre appel casse
     public function fetchLangages()
     {
         return $this->soapClient->__soapCall("getLangages", [])->return;

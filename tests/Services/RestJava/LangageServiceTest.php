@@ -5,16 +5,25 @@ namespace App\Tests\Services\RestJava;
 use App\Services\RestJava\LangageService;
 use phpDocumentor\Reflection\Types\Void_;
 use PHPUnit\Framework\TestCase;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\HttpClient\HttpClient;
 
-class LangageServiceTest extends TestCase
+class LangageServiceTest extends KernelTestCase
 {
 
 
     public $baseUrl = "http://localhost:8081/JavaWS_war_exploded/api/langages";
+    public static $langageService;
 
+    public static function setUpBeforeClass(): void
+    {
+        //récupération du service -procédure spéciale pour les tests
+        self::bootKernel();
+        $container = static::getContainer();
+        self::$langageService = $container->get(LangageService::class);
+    }
 
-    public function testCreateLangage()
+    public function testCreateLangageReturn201AndObject()
     {
         //attributs du langage
         $data = array(
@@ -55,22 +64,38 @@ class LangageServiceTest extends TestCase
     /**
      * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
      */
-    public function testGetLangage()
+    public function testGetLangageReturn200IfPresent()
     {
 
+        $id = self::$langageService->getLangageIds()[0];
 
+        if ($id !== null) {
+            $client = HttpClient::create();
+            $reponse = $client->request(
+                'GET',
+                $this->baseUrl . "/" . $id
+            );
+
+            $this->assertEquals(
+                200,
+                $reponse->getStatusCode()
+            );
+        }
+
+
+    }
+
+    public function testGetLangageRetrurn404IfNotPresent(){
         $client = HttpClient::create();
         $reponse = $client->request(
             'GET',
-            $this->baseUrl . "/6"
+            $this->baseUrl . "/123456789"
         );
 
         $this->assertEquals(
-            200,
+            404,
             $reponse->getStatusCode()
         );
-
-
     }
 
     public function testDeleteLangageReturn404IfNotPresent()
@@ -87,7 +112,22 @@ class LangageServiceTest extends TestCase
         );
     }
 
-    public function testDeleteLangageReturn200IfOk(){
+    public function testDeleteLangageReturn200IfOk()
+    {
+        $id = self::$langageService->getLangageIds()[0];
+
+        if ($id !== null){
+            $client = HttpClient::create();
+            $reponse = $client->request(
+                'DELETE',
+                $this->baseUrl . "/" . $id
+            );
+
+            $this->assertEquals(
+                200,
+                $reponse->getStatusCode()
+            );
+        }
 
 
 
